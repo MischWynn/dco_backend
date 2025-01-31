@@ -1,0 +1,421 @@
+definitions:
+  dto.CreateCategoryDTO:
+    properties:
+      name:
+        example: Example Category
+        type: string
+    required:
+    - name
+    type: object
+  dto.CreateItemDTO:
+    properties:
+      category_id:
+        example: 1
+        type: integer
+      desc:
+        example: Example Desc Item
+        type: string
+      name:
+        example: Example Item
+        type: string
+      photo:
+        description: 'Example: a byte array'
+        items:
+          type: integer
+        type: array
+      price:
+        example: 1
+        type: number
+    required:
+    - category_id
+    - desc
+    - name
+    - photo
+    - price
+    type: object
+  dto.CreateOrderDTO:
+    properties:
+      method:
+        example: transfer
+        type: string
+      order_detail:
+        items:
+          $ref: '#/definitions/dto.CreateOrderDetailDTO'
+        type: array
+      status:
+        example: pending
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    required:
+    - method
+    - order_detail
+    - status
+    - user_id
+    type: object
+  dto.CreateOrderDetailDTO:
+    properties:
+      item_id:
+        example: 1
+        type: integer
+      order_id:
+        example: 1
+        type: integer
+      quantity:
+        example: 2
+        type: integer
+    required:
+    - item_id
+    - order_id
+    - quantity
+    type: object
+  dto.LoginDTO:
+    properties:
+      email:
+        example: admin@example.com
+        type: string
+      password:
+        example: admin123
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.RegisterDTO:
+    properties:
+      address:
+        example: 123 Main St
+        type: string
+      email:
+        example: admin@example.com
+        type: string
+      name:
+        example: Admin
+        type: string
+      password:
+        example: admin123
+        minLength: 6
+        type: string
+      phone:
+        example: "1234567890"
+        type: string
+      role:
+        example: admin
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    type: object
+  dto.UpdateItemDTO:
+    properties:
+      category_id:
+        example: 2
+        type: integer
+      desc:
+        example: Example Update Desc Item
+        type: string
+      name:
+        example: Example Update Item
+        type: string
+      photo:
+        description: 'Example: a byte array'
+        items:
+          type: integer
+        type: array
+      price:
+        example: 2
+        type: number
+    required:
+    - category_id
+    - desc
+    - name
+    - photo
+    - price
+    type: object
+  dto.UpdateMethodDTO:
+    properties:
+      method:
+        example: cod
+        type: string
+    required:
+    - method
+    type: object
+  dto.UpdateStatusDTO:
+    properties:
+      status:
+        example: delivered
+        type: string
+    required:
+    - status
+    type: object
+info:
+  contact: {}
+  title: DCO Mart API
+paths:
+  /category:
+    get:
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get All Categories
+      tags:
+      - Category
+    post:
+      parameters:
+      - description: Create Category Data
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCategoryDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Category
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Delete Category
+      tags:
+      - Category
+    get:
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get Category By ID
+      tags:
+      - Category
+    put:
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Create Category Data
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCategoryDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Category
+      tags:
+      - Category
+  /item:
+    get:
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get All Item
+      tags:
+      - Item
+    post:
+      parameters:
+      - description: Create Item Data
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateItemDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Item
+      tags:
+      - Item
+  /item/{id}:
+    delete:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Delete Item
+      tags:
+      - Item
+    get:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get Item By ID
+      tags:
+      - Item
+    put:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Item Data
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateItemDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Item
+      tags:
+      - Item
+  /order:
+    get:
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get All Order
+      tags:
+      - Order
+    post:
+      parameters:
+      - description: Create Order Data
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateOrderDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Create Order
+      tags:
+      - Order
+  /order/{id}:
+    get:
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get Order By ID
+      tags:
+      - Order
+  /order/{id}/method:
+    put:
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Method Payment
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateMethodDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Method Payment
+      tags:
+      - Order
+  /order/{id}/status:
+    put:
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Status Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateStatusDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update Status Order
+      tags:
+      - Order
+  /order/checkout:
+    post:
+      parameters:
+      - description: Order payload
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateOrderDTO'
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Checkout Order
+      tags:
+      - Order
+  /user/login:
+    post:
+      parameters:
+      - description: User Login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginDTO'
+      responses: {}
+      summary: Login User
+      tags:
+      - User
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User Registration Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterDTO'
+      produces:
+      - application/json
+      responses: {}
+      summary: Register User
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
