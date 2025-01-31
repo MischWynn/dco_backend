@@ -26,6 +26,7 @@ func SetupRoutes(e *echo.Echo) {
 	category.POST("", categoryController.Create)
 	category.PUT("/:id", categoryController.Update)
 	category.DELETE("/:id", categoryController.Delete)
+	category.GET("/image/:id", categoryController.GetImageByID)
 
 	itemService := services.NewItemService(config.DB)
 	itemController := controllers.NewItemController(itemService)

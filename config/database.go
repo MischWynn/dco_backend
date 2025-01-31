@@ -37,7 +37,9 @@ func ConnectDatabase() {
 	}
 
 	DB = db
-	// migrateDatabase(DB)
+	if os.Getenv("DB_SYNC") == "true" {
+		migrateDatabase(DB)
+	}
 	log.Println("Database connection established.")
 }
 

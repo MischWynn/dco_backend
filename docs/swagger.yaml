@@ -4,8 +4,14 @@ definitions:
       name:
         example: Example Category
         type: string
+      photo:
+        description: 'Example: a byte array'
+        items:
+          type: integer
+        type: array
     required:
     - name
+    - photo
     type: object
   dto.CreateItemDTO:
     properties:

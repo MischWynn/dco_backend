@@ -6,5 +6,6 @@ type Category struct {
 	gorm.Model
 	ID    uint
 	Name  string
+	Photo []byte
 	Items []Item
 }

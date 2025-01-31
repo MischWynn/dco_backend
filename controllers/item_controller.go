@@ -41,12 +41,12 @@ func (c ItemController) GetByID(ctx echo.Context) error {
 	id := ctx.Param("id")
 
 	if id == "" {
-		return ctx.JSON(http.StatusBadRequest, echo.Map{"error": "Id Item tidak boleh kosong"})
+		return ctx.JSON(http.StatusBadRequest, echo.Map{"message": "Id Item tidak boleh kosong"})
 	}
 
 	item, err := c.itemService.GetByID(id)
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+		return ctx.JSON(http.StatusInternalServerError, echo.Map{"message": err.Error()})
 	}
 
 	return ctx.JSON(http.StatusOK, item)
@@ -70,24 +70,24 @@ func (c ItemController) Create(ctx echo.Context) error {
 	// Extract user claims from the context
 	userClaims, ok := ctx.Get("user").(models.User)
 	if !ok || userClaims.Role != "admin" {
-		return ctx.JSON(http.StatusUnauthorized, map[string]string{"error": "Anda bukan Admin"})
+		return ctx.JSON(http.StatusUnauthorized, map[string]string{"message": "Anda bukan Admin"})
 	}
 
 	name := ctx.FormValue("name")
 	desc := ctx.FormValue("desc")
 	category_id, err := strconv.Atoi(ctx.FormValue("category_id"))
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid category ID"})
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid category ID"})
 	}
 
 	price, err := strconv.ParseFloat(ctx.FormValue("price"), 64)
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid price"})
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid price"})
 	}
 
 	file, err := ctx.FormFile("photo")
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid file"})
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid file"})
 	}
 
 	src, err := file.Open()
@@ -112,7 +112,7 @@ func (c ItemController) Create(ctx echo.Context) error {
 	}
 	item, err := c.itemService.Create(input)
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
 	return ctx.JSON(http.StatusCreated, item)
@@ -127,13 +127,13 @@ func (c ItemController) Create(ctx echo.Context) error {
 func (c ItemController) Update(ctx echo.Context) error {
 	userClaims := ctx.Get("user").(models.User)
 	if userClaims.Role != "admin" {
-		return ctx.JSON(http.StatusUnauthorized, map[string]string{"error": "Anda bukan Admin"})
+		return ctx.JSON(http.StatusUnauthorized, map[string]string{"message": "Anda bukan Admin"})
 	}
 
 	id := ctx.Param("id")
 	var input dto.UpdateItemDTO
 	if err := ctx.Bind(&input); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 	}
 
 	item, err := c.itemService.Update(id, input)
@@ -152,7 +152,7 @@ func (c ItemController) Update(ctx echo.Context) error {
 func (c ItemController) Delete(ctx echo.Context) error {
 	userClaims := ctx.Get("user").(models.User)
 	if userClaims.Role != "admin" {
-		return ctx.JSON(http.StatusUnauthorized, map[string]string{"error": "Anda bukan Admin"})
+		return ctx.JSON(http.StatusUnauthorized, map[string]string{"message": "Anda bukan Admin"})
 	}
 
 	id := ctx.Param("id")

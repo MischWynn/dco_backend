@@ -17,7 +17,9 @@ func NewItemService(db *gorm.DB) ItemService {
 
 func (s ItemService) GetAll() ([]models.Item, error) {
 	var items []models.Item
-	if err := s.db.Find(&items).Preload("Category").Error; err != nil {
+	if err := s.db.Select("id", "name", "desc", "price", "category_id").Preload("Category", func(db *gorm.DB) *gorm.DB {
+		return db.Omit("Photo")
+	}).Find(&items).Error; err != nil {
 		return nil, err
 	}
 	return items, nil

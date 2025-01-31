@@ -438,12 +438,20 @@ const docTemplate = `{
         "dto.CreateCategoryDTO": {
             "type": "object",
             "required": [
-                "name"
+                "name",
+                "photo"
             ],
             "properties": {
                 "name": {
                     "type": "string",
                     "example": "Example Category"
+                },
+                "photo": {
+                    "description": "Example: a byte array",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
