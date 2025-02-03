@@ -22,7 +22,7 @@ func ConnectDatabase() {
 
 	// Construct the DSN
 	dsn := fmt.Sprintf(
-		"host=%s user=%s dbname=%s sslmode=disable password=%s",
+		"host=%s user=%s dbname=%s sslmode=require password=%s",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_NAME"),
